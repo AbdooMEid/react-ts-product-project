@@ -1,33 +1,62 @@
 import { useState } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
-import "./App.css";
+import ProductCard from "./components/ProductCard";
+import Modal from "./components/ui/Modal/Modal";
+import { productList } from "./data/productlist";
+import Button from "./components/ui/Button/Button";
 
 function App() {
-  const [count, setCount] = useState(0);
+  //------------ state ------------//
+  const [isOpen, setIsOpen] = useState(false);
 
+  //------------ Handler ------------//
+  function closeModal() {
+    setIsOpen(false);
+  }
+
+  function openModal() {
+    console.log(isOpen);
+    setIsOpen(true);
+  }
+  //------------ Render ------------//
+  const renderProductList = productList.map((product) => (
+    <ProductCard key={product.id} product={product} />
+  ));
   return (
     <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1 className="text-3xl font-bold underline">Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <main className="container mx-auto">
+        <div className="flex items-center justify-between">
+          <h2 className="text-lime-600 border-2 rounded-md font-bold h-100">
+            HI CLIENT
+          </h2>
+          <Button
+            className="bg-fuchsia-700 my-3 "
+            width="w-fit"
+            onClick={openModal}
+          >
+            Add Product
+          </Button>
+        </div>
+        <div className=" grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 ">
+          {renderProductList}
+        </div>
+        <Modal isOpen={isOpen} title="Add NEW Product" closeModal={closeModal}>
+          <div className="flex items-center space-x-2">
+            <Button
+              className="bg-indigo-500  hover:bg-indigo-300"
+              width="w-full"
+            >
+              Submit
+            </Button>
+            <Button
+              className="bg-gray-600 hover:bg-gray-300"
+              width="w-full"
+              onClick={closeModal}
+            >
+              Cancel
+            </Button>
+          </div>
+        </Modal>
+      </main>
     </>
   );
 }
