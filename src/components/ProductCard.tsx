@@ -41,10 +41,10 @@ const ProductCard = ({ product }: IProps) => {
         </div>
 
         <div className="flex space-x-2 mt-4">
-          <Button className="bg-indigo-600" width="w-full">
+          <Button className="bg-indigo-600 hover:bg-indigo-300" width="w-full">
             EDIT
           </Button>
-          <Button className="bg-red-600" width="w-full">
+          <Button className="bg-red-600 hover:bg-red-300" width="w-full">
             DELETE
           </Button>
         </div>
