@@ -33,7 +33,6 @@ function App() {
       [name]: value,
     });
   };
-
   //------------ Render ------------//
   const renderProductList = productList.map((product) => (
     <ProductCard key={product.id} product={product} />
@@ -48,7 +47,7 @@ function App() {
         type={input.type}
         name={input.name}
         id={input.id}
-        value={""}
+        value={product[input.name]}
         onChange={onChangeHandler}
       />
     </div>
