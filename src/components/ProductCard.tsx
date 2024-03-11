@@ -1,17 +1,29 @@
-import { IProductList } from "../interface/productInterface";
-import { textSlicer } from "../utils/function";
+import {IProductList} from "../interface/productInterface";
+import {textSlicer} from "../utils/function";
 import Image from "./Image";
 import Button from "./ui/Button/Button";
 import CircleColors from "./ui/Colors/CircleColors";
 
 interface IProps {
   product: IProductList;
+  setProductEdit: (product: IProductList) => void;
+  openEditModal: () => void;
+  setProductEditIndex: (index: number) => void;
+  index : number;
 }
-const ProductCard = ({ product }: IProps) => {
-  const { title, description, imageURL, price, colors, category } = product;
+
+const ProductCard = ({product, setProductEdit, openEditModal , index ,setProductEditIndex}: IProps) => {
+  const {title, description, imageURL, price, colors, category} = product;
+  //------------ Render ------------//
   const renderColorCircle = colors.map((color) => (
-    <CircleColors key={color} color={color} />
+    <CircleColors key={color} color={color}/>
   ));
+  //------------ Handler ------------//
+  const onEdit = () => {
+    setProductEdit(product)
+    openEditModal()
+    setProductEditIndex(index)
+  }
   return (
     <>
       <div className="max-w-sm md:max-w-lg mx-auto md:mx-0 space-y-3 border-2 rounded-md p-2 m-2 flex flex-col">
@@ -42,7 +54,7 @@ const ProductCard = ({ product }: IProps) => {
         </div>
 
         <div className="flex space-x-2 mt-4">
-          <Button className="bg-indigo-600 hover:bg-indigo-300" width="w-full">
+          <Button className="bg-indigo-600 hover:bg-indigo-300" width="w-full" onClick={onEdit}>
             EDIT
           </Button>
           <Button className="bg-red-600 hover:bg-red-300" width="w-full">

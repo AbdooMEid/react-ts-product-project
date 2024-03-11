@@ -1,4 +1,4 @@
-type inputName = "title" | "description" | "price" | "imageURL";
+import {inputName} from "../components/Types/types.ts";
 
 export interface IFormList {
   id: string;
