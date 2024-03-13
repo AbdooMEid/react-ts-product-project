@@ -5,7 +5,7 @@ import { categories } from "../../../data/category";
 import { ICategory } from "../../../interface/categoryInterface";
 
 interface IProps {
-  selected: ICategory;
+  selected: {name : string , imageURL : string};
   setSelected: (category: ICategory) => void;
 }
 function classNames(...classes: string[]) {

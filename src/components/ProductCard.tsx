@@ -10,20 +10,29 @@ interface IProps {
   openEditModal: () => void;
   setProductEditIndex: (index: number) => void;
   index : number;
+  OpenConfirmModal : () => void;
+
 }
 
-const ProductCard = ({product, setProductEdit, openEditModal , index ,setProductEditIndex}: IProps) => {
+const ProductCard = ({product, setProductEdit, openEditModal , index ,setProductEditIndex , OpenConfirmModal}: IProps) => {
   const {title, description, imageURL, price, colors, category} = product;
   //------------ Render ------------//
   const renderColorCircle = colors.map((color) => (
     <CircleColors key={color} color={color}/>
   ));
   //------------ Handler ------------//
+  const numberWithCommas = (price: string | number): string => {
+    return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  };
   const onEdit = () => {
     setProductEdit(product)
     openEditModal()
     setProductEditIndex(index)
   }
+
+  // const onRemove = ()=>{
+  //   OpenConfirmModal();
+  // }
   return (
     <>
       <div className="max-w-sm md:max-w-lg mx-auto md:mx-0 space-y-3 border-2 rounded-md p-2 m-2 flex flex-col">
@@ -38,11 +47,11 @@ const ProductCard = ({product, setProductEdit, openEditModal , index ,setProduct
           {textSlicer(description)}
         </p>
         <div className="flex items-center space-x-1 my-2 py-2 cursor-pointer flex-wrap">
-          {renderColorCircle}
+          {renderColorCircle.length === 0 ? "Not Available Color" : renderColorCircle}
         </div>
 
         <div className="flex items-center justify-between">
-          <span>${price}</span>
+          <span>${numberWithCommas(price)}</span>
           <div className="flex items-center space-x-1">
             <Image
               imageUrl={category.imageURL}
@@ -57,8 +66,8 @@ const ProductCard = ({product, setProductEdit, openEditModal , index ,setProduct
           <Button className="bg-indigo-600 hover:bg-indigo-300" width="w-full" onClick={onEdit}>
             EDIT
           </Button>
-          <Button className="bg-red-600 hover:bg-red-300" width="w-full">
-            DELETE
+          <Button className="bg-red-600 hover:bg-red-300" width="w-full" onClick={OpenConfirmModal}>
+            Remove
           </Button>
         </div>
       </div>

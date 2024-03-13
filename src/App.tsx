@@ -44,6 +44,7 @@ function App() {
   const [isOpenEditModal, setIsOpenEditModal] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState(categories[3]);
   const [colorValidation, setColorValidation] = useState("");
+  const [isOpenConfirmModal , setIsOpenConfirmModal] = useState(false)
   // const [editColor , setEditColor] = useState<string[]>([]);
   //------------ Handler ------------//
   const closeModal = () => setIsOpen(false);
@@ -123,10 +124,10 @@ function App() {
       return;
     }
 
-    if (tempColor.length <= 0 ) {
-      setColorValidation("color Is Required");
-      return;
-    }
+    // if (productEdit.colors.length <= 0 ) {
+    //   setColorValidation("color Is Required");
+    //   return;
+    // }
 
     let updateProduct :IProductList[] = [...products];
     updateProduct[productEditIndex] = {...productEdit , colors : tempColor.concat(productEdit.colors)};
@@ -137,6 +138,8 @@ function App() {
     // console.log("send data in server");
   };
 
+  const OpenConfirmModal = ()=> setIsOpenConfirmModal(true);
+  const closeConfirmModal = ()=> setIsOpenConfirmModal(false);
 
   const onCancel = () => {
     setProduct(defaultProductValue);
@@ -153,7 +156,7 @@ function App() {
   //------------ Render ------------//
   const renderProductList = products.map((product, index) => (
     <ProductCard key={product.id} product={product} setProductEdit={setProductEdit}
-                 openEditModal={openEditModal} setProductEditIndex={setProductEditIndex} index={index}/>
+                 openEditModal={openEditModal} setProductEditIndex={setProductEditIndex} index={index} OpenConfirmModal={OpenConfirmModal}/>
   ));
 
   const renderFormList = formList.map((input) => (
@@ -278,11 +281,10 @@ function App() {
             {renderEditFormWithErrorMsg("description", "Product Description", "description")}
             {renderEditFormWithErrorMsg("imageURL", "Product Image URL", "imageURL")}
             {renderEditFormWithErrorMsg("price", "Product Price", "price")}
-            {/*{renderFormList}*/}
-            {/*<Select*/}
-            {/*  selected={selectedCategory}*/}
-            {/*  setSelected={setSelectedCategory}*/}
-            {/*/>*/}
+            <Select
+              selected={productEdit.category}
+              setSelected={(value) => setProductEdit({...productEdit , category : value})}
+            />
             <div className="flex items-center space-x-2 my-3 cursor-pointer flex-wrap">
               {renderColorCircle}
               <span className="block text-red-800 text-sm font-semibold">
@@ -316,6 +318,21 @@ function App() {
               </Button>
             </div>
           </form>
+        </Modal>
+
+        {/*Confirm Remove Model*/}
+        <Modal
+          isOpen={isOpenConfirmModal}
+          closeModal={closeConfirmModal}
+          title="Are you sure you want to remove this Product from your Store?"
+          description="Deleting this product will remove it permanently from your inventory. Any associated data, sales history, and other related information will also be deleted. Please make sure this is the intended action."
+        >
+          <div className="flex items-center space-x-3">
+            <Button className="bg-[#c2344d] hover:bg-red-800" width={"w-full"}>Yes, remove</Button>
+            <Button className="bg-[#f5f5fa] hover:bg-gray-300 text-black" width={"w-full"} onClick={closeConfirmModal}>
+              Cancel
+            </Button>
+          </div>
         </Modal>
       </main>
     </>
