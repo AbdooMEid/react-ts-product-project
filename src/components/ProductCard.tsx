@@ -30,9 +30,10 @@ const ProductCard = ({product, setProductEdit, openEditModal , index ,setProduct
     setProductEditIndex(index)
   }
 
-  // const onRemove = ()=>{
-  //   OpenConfirmModal();
-  // }
+  const onRemove = ()=>{
+    setProductEdit(product)
+    OpenConfirmModal();
+  }
   return (
     <>
       <div className="max-w-sm md:max-w-lg mx-auto md:mx-0 space-y-3 border-2 rounded-md p-2 m-2 flex flex-col">
@@ -66,7 +67,7 @@ const ProductCard = ({product, setProductEdit, openEditModal , index ,setProduct
           <Button className="bg-indigo-600 hover:bg-indigo-300" width="w-full" onClick={onEdit}>
             EDIT
           </Button>
-          <Button className="bg-red-600 hover:bg-red-300" width="w-full" onClick={OpenConfirmModal}>
+          <Button className="bg-red-600 hover:bg-red-300" width="w-full" onClick={onRemove}>
             Remove
           </Button>
         </div>
